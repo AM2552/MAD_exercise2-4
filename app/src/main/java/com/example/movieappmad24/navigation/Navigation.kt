@@ -1,6 +1,7 @@
 package com.example.movieappmad24.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -9,41 +10,33 @@ import androidx.navigation.navArgument
 import com.example.movieappmad24.screens.DetailScreen
 import com.example.movieappmad24.screens.HomeScreen
 import com.example.movieappmad24.screens.WatchlistScreen
+import com.example.movieappmad24.viewmodels.MoviesViewModel
 
 @Composable
 fun Navigation() {
-    val navController = rememberNavController()
-    
-    NavHost(
-        navController = navController,
-        startDestination = Screen.Home.route
-    ) {
+    val navController = rememberNavController() // create a NavController instance
 
-        // Home Screen
-        composable(
-            route= Screen.Home.route
-        ) {
-            HomeScreen(navController)
+    val moviesViewModel: MoviesViewModel = viewModel()  // create a MoviesViewModel instance to use in HomeScreen and WatchlistScreen
+
+    NavHost(navController = navController, // pass the NavController to NavHost
+        startDestination = Screen.HomeScreen.route) {  // pass a start destination
+        composable(route = Screen.HomeScreen.route){   // route with name "homescreen" navigates to HomeScreen composable
+            HomeScreen(navController = navController, moviesViewModel = moviesViewModel)
         }
 
-        // Detail Screen
         composable(
-            route = Screen.Detail.route,
-            arguments = listOf(
-                navArgument(DETAIL_ARGUMENT_KEY) {type = NavType.StringType },
-                navArgument(DETAIL_ARGUMENT_KEY2) {type = NavType.StringType})
+            route = Screen.DetailScreen.route,
+            arguments = listOf(navArgument(name = DETAIL_ARGUMENT_KEY) {type = NavType.StringType})
         ) { backStackEntry ->
             DetailScreen(
-                navController,
-                movieId = backStackEntry.arguments?.getString("movieId"),
-                movieTitle = backStackEntry.arguments?.getString("movieTitle"))
+                navController = navController,
+                movieId = backStackEntry.arguments?.getString(DETAIL_ARGUMENT_KEY),
+                moviesViewModel = moviesViewModel
+            )
         }
 
-        // Watchlist Screen
-        composable(
-            route = Screen.Watchlist.route
-        ) {
-            WatchlistScreen(navController)
+        composable(route = Screen.WatchlistScreen.route){
+            WatchlistScreen(navController = navController, moviesViewModel = moviesViewModel)
         }
     }
 }
