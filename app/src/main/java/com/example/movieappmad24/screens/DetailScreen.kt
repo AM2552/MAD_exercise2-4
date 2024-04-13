@@ -48,9 +48,9 @@ fun DetailScreen(
                         movieId -> moviesViewModel.toggleFavoriteMovie(movieId)
                     }
                 )
-                Divider(modifier = Modifier.padding(3.dp))
+                Divider(modifier = Modifier.padding(5.dp))
                 MovieTrailer(movie = movie)
-                Divider(modifier = Modifier.padding(3.dp))
+                Divider(modifier = Modifier.padding(5.dp))
                 HorizontalScrollableImageView(movie = movie)
             }
         }

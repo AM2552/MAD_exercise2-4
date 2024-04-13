@@ -273,7 +273,6 @@ fun MovieTrailer(movie: Movie){
         ExoPlayer.Builder(context).build().apply {
             setMediaItem(mediaItem)
             prepare()
-
         }
     }
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -300,9 +299,6 @@ fun MovieTrailer(movie: Movie){
             when(lifecycle) {
                 Lifecycle.Event.ON_RESUME -> {
                     it.player?.play()
-                }
-                Lifecycle.Event.ON_PAUSE -> {
-                    it.player?.pause()
                 }
                 Lifecycle.Event.ON_STOP -> {
                     it.player?.stop()

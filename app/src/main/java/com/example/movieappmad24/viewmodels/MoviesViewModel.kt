@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import com.example.movieappmad24.models.Movie
 import com.example.movieappmad24.models.getMovies
 
-// Inherit from ViewModel class
 class MoviesViewModel : ViewModel() {
     private val _movies = getMovies().toMutableStateList()
     val movies: List<Movie>
